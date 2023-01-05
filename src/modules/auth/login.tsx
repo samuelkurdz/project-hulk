@@ -6,17 +6,23 @@ import { SvgIcon } from "../../components/svg-icon";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import { loginFormData, LoginFormValues } from "./constants";
 import { Link } from "react-router-dom";
+import { useLogin } from "../../hooks/apis";
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<LoginFormValues>();
-  const onSubmit: SubmitHandler<LoginFormValues> = (data) => console.log(data);
 
-  console.log(watch("email")); // watch input value by passing the name of it
+  const { login } = useLogin();
+  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
+    if (!isValid) return;
+    login(data);
+  };
+
+  // console.log(watch("email")); // watch input value by passing the name of it
 
   return (
     <>
