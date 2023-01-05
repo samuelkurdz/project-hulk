@@ -11,8 +11,17 @@ export interface Person {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   isWorker: boolean;
-  company: string;
+  company: Company;
   apps: Apps;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Company {
+  _id: string;
+  companyName: string;
+  officialEmail: string;
+  category: string;
+  logo: string;
 }
