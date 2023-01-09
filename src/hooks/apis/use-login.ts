@@ -5,11 +5,11 @@ import { storageService } from "../../services/storage.service";
 
 export const useLogin = () => {
   let navigate = useNavigate();
-  const baseURL = 'https://project-gammarays-production.up.railway.app';
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   async function login(payload: LoginPayload) {
 
     try {
-      const { data } = await axios.post<LoggedInUser>(`${baseURL}/auth/login`, payload);
+      const { data } = await axios.post<LoggedInUser>(`${BACKEND_URL}/auth/login`, payload);
       storageService.storeCurrentUser(data);
       navigate("/");
     } catch (error) {
