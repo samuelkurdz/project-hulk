@@ -1,0 +1,55 @@
+import { RouteDefinition } from "@solidjs/router";
+import { lazy } from "solid-js";
+
+const authRoutes: RouteDefinition = {
+  path: "auth",
+  children: [
+    {
+      path: "login",
+      component: lazy(() =>
+        import("./pages/auth").then((com) => ({ default: com.LoginPage }))
+      ),
+    },
+    {
+      path: "signup",
+      component: lazy(() =>
+        import("./pages/auth").then((com) => ({ default: com.Signup }))
+      ),
+    },
+  ],
+};
+
+const mainRoutes: RouteDefinition = {
+  path: "",
+  component: lazy(() =>
+    import("./layouts").then((com) => ({ default: com.MainLayout }))
+  ),
+  children: [
+    {
+      path: "",
+      component: lazy(() =>
+        import("./pages/counter").then((com) => ({ default: com.Counter }))
+      ),
+    },
+    {
+      path: "teams",
+      component: lazy(() =>
+        import("./pages/teams/manage-teams").then((com) => ({ default: com.ManageTeams }))
+      ),
+    },
+    {
+      path: "attendances",
+      component: lazy(() =>
+        import("./pages/profile").then((com) => ({ default: com.Profile }))
+      ),
+    },
+    {
+      path: "*",
+      component: lazy(() =>
+        import("./layouts").then((com) => ({ default: com.NotFoundLayout }))
+      ),
+    },
+  ],
+};
+
+export const appRoutes: RouteDefinition[] = [authRoutes, mainRoutes];
