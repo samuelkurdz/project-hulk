@@ -1,63 +1,54 @@
-import { useId } from "react";
-import {
-  FieldErrorsImpl,
-  RegisterOptions,
-  UseFormRegister,
-} from "react-hook-form";
+import { clsx } from "clsx";
+import { JSX, splitProps } from "solid-js";
 
-export interface InputProps {
-  wrapperClasses?: string;
+type TextInputProps = {
+  ref: (element: HTMLInputElement) => void;
 
-  hasLabel?: boolean;
-  labelText?: string;
-
-  formName: string;
+  type: "text" | "email" | "tel" | "password" | "url" | "number" | "date";
   name: string;
-  type: "email" | "number" | "password" | "search" | "text";
 
-  register: UseFormRegister<any>;
-  registerOptions?: RegisterOptions;
-  errors: Partial<FieldErrorsImpl<any>>;
-}
+  onInput: JSX.EventHandler<HTMLInputElement, InputEvent>;
+  onChange: JSX.EventHandler<HTMLInputElement, Event>;
+  onBlur: JSX.EventHandler<HTMLInputElement, FocusEvent>;
 
-export const Input = ({
-  register,
-  registerOptions,
-  name,
-  type,
-  formName,
-  hasLabel,
-  labelText,
-  errors,
-}: InputProps) => {
-  const uniqueFormId = `${formName}-${name}-input-${useId()}`;
-  const inputHasError = errors && !!errors[name];
+  placeholder?: string;
+  required?: boolean;
+
+  label?: string;
+  error?: string;
+  value: string | number | undefined;
+};
+
+export function TextInput(props: TextInputProps) {
+  const [, inputProps] = splitProps(props, ["value", "label", "error"]);
   return (
     <div>
-      {hasLabel && (
+      {props.label && (
         <label
-          htmlFor={uniqueFormId}
-          className={`mb-3 block font-medium text-gray-700`}
+          for={props.name}
+          class={clsx("mb-1.5 block font-medium text-gray-700")}
         >
-          {labelText}
+          {props.label}
         </label>
       )}
       <input
-        {...register(name, registerOptions)}
-        id={uniqueFormId}
-        type={type}
-        name={name}
-        className={`block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-indigo-600 focus:bg-white focus:outline-none focus:ring-indigo-600 ${
-          inputHasError &&
-          "border-red-600 focus:border-red-600 focus:ring-red-600"
-        }`}
-      ></input>
-
-      {errors && errors[name] && (
-        <small className="text-red-600">
-          {errors[name]?.message?.toString()}
+        {...inputProps}
+        id={props.name}
+        value={props.value || ""}
+        aria-invalid={!!props.error}
+        aria-errormessage={`${props.name}-error`}
+        class={clsx(
+          "block w-full appearance-none rounded-sm border focus:bg-white px-3 py-2 text-sm",
+          props.error
+            ? "border-red-600 focus:border-red-600 focus:ring-red-600 text-red-600"
+            : "border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:border-indigo-600 focus:outline-none focus:ring-indigo-600"
+        )}
+      />
+      {props.error && (
+        <small id={`${props.name}-error`} class="text-red-600 text-xs">
+          {props.error}
         </small>
       )}
     </div>
   );
-};
+}

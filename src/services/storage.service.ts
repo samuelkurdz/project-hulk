@@ -13,6 +13,10 @@ export const storageService = {
     return JSON.parse(userData) as LoggedInUser;
   },
 
+  getUserToken() {
+    return this.getCurrentUser()?.access_token;
+  },
+
   // delete all stored data in local storage
   clearAll() {
     localStorage.clear();

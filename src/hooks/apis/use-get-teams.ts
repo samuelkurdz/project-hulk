@@ -1,17 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Person } from "../../interfaces/person.interface";
+import { createQuery } from "@tanstack/solid-query";
+import { Person } from "../../interfaces";
+import { axiosInterceptorInstance } from "../../services/interceptor.service";
+
+const { VITE_BACKEND_URL } = import.meta.env;
 
 export const useGetTeams = () => {
-  async function fetchTeams() {
-    const teams = await axios("http://localhost:8100/teams");
-    return teams.data;
-  }
-
-  return useQuery<Person[]>(
-    ["teams"], fetchTeams,
+  return createQuery<Person[]>(
+    () => ["teams"],
+    () => axiosInterceptorInstance.get(`${VITE_BACKEND_URL}/teams`).then(res => res.data),
     {
       staleTime: Infinity,
     }
-  );
+  )
+
 };
+
+// cool too, just lacks the caching parts
+// export const getTeamsResource = () => {
+//   const [teams, { refetch,  }] = createResource(
+//     () => axiosInterceptorInstance.get<Person[]>(`${VITE_BACKEND_URL}/teams`).then(res => res.data)
+//   );
+//   return { teams, refetch }
+// }

@@ -1,21 +1,17 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { RouterProvider } from "react-router-dom";
-import { router } from "./router";
+import { useRoutes } from "@solidjs/router";
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { Component } from "solid-js";
+import { appRoutes } from "./routes";
 
 const queryClient = new QueryClient();
+const AppRoutes = useRoutes(appRoutes);
 
-function App() {
-
+const App: Component = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <AppRoutes />
     </QueryClientProvider>
   );
-}
+};
 
 export default App;

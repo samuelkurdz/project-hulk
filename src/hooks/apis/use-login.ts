@@ -1,19 +1,21 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { LoginPayload, LoggedInUser } from "../../interfaces";
+import { axiosInterceptorInstance } from "../../services/interceptor.service";
 import { storageService } from "../../services/storage.service";
 
-export const useLogin = () => {
-  let navigate = useNavigate();
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  async function login(payload: LoginPayload) {
+const { VITE_BACKEND_URL } = import.meta.env;
 
+export const useLogin = () => {
+  // let navigate = useNavigate();
+
+  async function login(payload: LoginPayload) {
     try {
-      const { data } = await axios.post<LoggedInUser>(`${BACKEND_URL}/auth/login`, payload);
+      const { data } = await axiosInterceptorInstance.post<LoggedInUser>(`${VITE_BACKEND_URL}/auth/login`, payload);
       storageService.storeCurrentUser(data);
-      navigate("/");
+      // navigate("/");
+      return true;
     } catch (error) {
       console.log(error, "login user error");
+      return false;
     } finally {
       // hide();
     }
