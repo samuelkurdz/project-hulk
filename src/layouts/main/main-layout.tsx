@@ -5,7 +5,7 @@ export const MainLayout = () => {
   return (
     <div class="grid lg:grid-cols-sideMain h-screen overflow-hidden">
       <Sidebar />
-      <main class="overflow-y-scroll pt-6 px-2.5">
+      <main class="overflow-y-scroll pt-6 px-2.5 bg-gray-50">
         <Outlet />
       </main>
     </div>

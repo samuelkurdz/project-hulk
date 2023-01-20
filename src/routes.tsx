@@ -28,7 +28,7 @@ const mainRoutes: RouteDefinition = {
     {
       path: "",
       component: lazy(() =>
-        import("./pages/counter").then((com) => ({ default: com.Counter }))
+        import("./pages/dashboard").then((com) => ({ default: com.Dashboard }))
       ),
     },
     {
