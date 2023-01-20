@@ -40,7 +40,7 @@ const mainRoutes: RouteDefinition = {
     {
       path: "attendances",
       component: lazy(() =>
-        import("./pages/profile").then((com) => ({ default: com.Profile }))
+        import("./pages/attendances").then((com) => ({ default: com.ManageAttendance }))
       ),
     },
     {
