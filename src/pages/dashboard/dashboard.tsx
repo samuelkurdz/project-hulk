@@ -1,3 +1,4 @@
+import { Button } from "../../components/button";
 import { PageHeader } from "../../components/page-header";
 import { DashboardStatistics } from "./components";
 

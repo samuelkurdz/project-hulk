@@ -3,5 +3,32 @@
 @import "tailwindcss/utilities";
 
 * {
-  font-family: 'Figtree', sans-serif;
+  font-family: "Figtree", sans-serif;
+}
+
+#snack {
+  min-width: 300px;
+  box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em,
+    rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  z-index: 1;
+  animation: showingSnack 0.5s ease-in-out;
+
+  &.leaving {
+    animation: removingSnack 0.5s ease-in-out;
+  }
+}
+
+@keyframes showingSnack {
+  from {
+    opacity: 0;
+    // transform: scale(0);
+    // transform: translateX(-50px);
+    // background: #5470B0;
+  }
+}
+
+@keyframes removingSnack {
+  to {
+    opacity: 0;
+  }
 }
